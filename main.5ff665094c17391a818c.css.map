@@ -1,0 +1,1 @@
+{"version":3,"file":"main.5ff665094c17391a818c.css","mappings":"AAAA,EAGI,qBAAsB,CAFtB,QAAS,CACT,SAEJ,CAEA,GACI,WAAY,CACZ,iBACJ","sources":["webpack://webpack-template/./src/styles/style.css"],"sourcesContent":["*{\n    margin: 0;\n    padding: 0;\n    box-sizing: border-box;\n}\n\nh1{\n    margin: 40px;\n    text-align: center;\n}"],"names":[],"ignoreList":[],"sourceRoot":""}
