@@ -24,8 +24,8 @@ if (!localStorage.getItem("firstVisitDone")) {
 signLink.addEventListener("click",(e)=>{
     mainBody.classList.add("half-body");
     mainContainer.classList.add("half-cont");
-   formContainer.style.display="flex";
-   formContainer.classList.remove("log-mode");
+    formContainer.style.display="flex";
+    formContainer.classList.remove("log-mode");
    submitBtn.textContent = "Sign Up";
 })
 
@@ -47,28 +47,73 @@ closeLink.addEventListener("click",(e)=>{
 
 submitBtn.addEventListener("click",(e) => {
   e.preventDefault();
-  if (e.target.textContent == "Sign Up") {
-    if (localStorage.getItem(`username`) == userName.value.trim()) {
-      alert("This username is registered, Log in please");
-      return;
+   //if it is sign up
+    if (e.target.textContent == "Sign Up") {
+      //data validation
+      if (
+        !userName.value.trim() ||
+        !phoneNumber.value.trim() ||
+        !password.value.trim()
+      ) {
+        alert(
+          "Please enter complete information (username,phonenumber and password)",
+        );
+        return;
+      }
+      //if the user already has account
+      if (localStorage.getItem("username")) {
+        alert("An account already exists on this device. Please log in.");
+        return;
+      }
+      //store the data
+      localStorage.setItem("username", userName.value.trim());
+      localStorage.setItem("phonenumber", phoneNumber.value.trim());
+      localStorage.setItem("password", password.value.trim());
+      //clears the boxes
+      userName.value = "";
+      phoneNumber.value = "";
+      password.value = "";
+      //return to default layout
+      mainBody.classList.remove("half-body");
+      mainContainer.classList.remove("half-cont");
+      formContainer.style.display = "none";
+      //pass to main page
+      window.location.href = "main.html";
     }
-    localStorage.setItem("username", userName.value.trim());
-    localStorage.setItem("phone", phoneNumber.value.trim());
-    localStorage.setItem("password", password.value.trim());
-    //direct to main page
-    window.location.href = "main.html";
-  } else if (e.target.textContent == "Log in") {
-    if (userName.value.trim() != localStorage.getItem("username")) {
-      alert("Incorrect username");
-      return;
-    } else if (password.value.trim() != localStorage.getItem("password")) {
-      alert("Incorrect password");
-      return;
+    //if it is log in
+    else if (e.target.textContent == "Log in") {
+      //data validation
+      if (!userName.value.trim() || !password.value.trim()) {
+        alert("Please enter both username and password");
+        return;
+      }
+      //checks if the useris registered with username
+      if (
+        !localStorage.getItem("username") ||
+        !localStorage.getItem("password")
+      ) {
+        alert("Please sign up first");
+        return;
+      }
+      //checks if the user enterred correct password
+      if (
+        localStorage.getItem("username") != userName.value.trim() ||
+        localStorage.getItem("password") != password.value.trim()
+      ) {
+        alert("Incorrect username or password");
+        return;
+      }
+      //clears the boxes
+      userName.value = "";
+      password.value = "";
+      //return to default layout
+      mainBody.classList.remove("half-body");
+      mainContainer.classList.remove("half-cont");
+      formContainer.style.display = "none";
+
+      window.location.href = "main.html";
     }
-    //direct to main page
-    window.location.href = "main.html";
-  }
- 
+
 })
  
  forgotLink.addEventListener("click",(e)=>{
@@ -79,13 +124,16 @@ submitBtn.addEventListener("click",(e) => {
         alert("Enter valid username");
         return;
     }
-
+  if (username != localStorage.getItem("username")) {
+    alert(`Incorrect username`);
+    return;
+  }
     let phone=prompt("Enter your phone number(09xxxxxxxx)").trim();
        if (!phone) {
          alert("Enter valid phone number");
          return;
        }
-    if(phone==localStorage.getItem("phone")){
+    if(phone==localStorage.getItem("phonenumber")){
             alert(`Your password:"${localStorage.getItem("password")}"`)
     }
     else{
@@ -107,3 +155,5 @@ aboutDialog.addEventListener("click", (e) => {
     aboutDialog.close();
   }
 });
+ 
+ 
